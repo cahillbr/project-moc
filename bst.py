@@ -1,14 +1,35 @@
+# Name:
+# OSU Email:
+# Course: CS261 - Data Structures
+# Assignment:
+# Due Date:
+# Description:
+
+
 import random
 from queue_and_stack import Queue, Stack
 
 
 class BSTNode:
+    """
+    Binary Search Tree Node class
+    DO NOT CHANGE THIS CLASS IN ANY WAY
+    """
+
     def __init__(self, value: object) -> None:
-        self.value = value  # to store node's data
-        self.left = None  # pointer to root of left subtree
-        self.right = None  # pointer to root of right subtree
+        """
+        Initialize a new BST node
+        DO NOT CHANGE THIS METHOD IN ANY WAY
+        """
+        self.value = value   # to store node's data
+        self.left = None     # pointer to root of left subtree
+        self.right = None    # pointer to root of right subtree
 
     def __str__(self) -> str:
+        """
+        Override string method
+        DO NOT CHANGE THIS METHOD IN ANY WAY
+        """
         return 'BST Node: {}'.format(self.value)
 
 
@@ -51,9 +72,24 @@ class BST:
         self._str_helper(node.right, values)
 
     def get_root(self) -> BSTNode:
+        """
+        Return root of tree, or None if empty
+        DO NOT CHANGE THIS METHOD IN ANY WAY
+        """
         return self._root
 
     def is_valid_bst(self) -> bool:
+        """
+        Perform pre-order traversal of the tree.
+        Return False if nodes don't adhere to the bst ordering property.
+
+        This is intended to be a troubleshooting method to help find any
+        inconsistencies in the tree after the add() or remove() operations.
+        A return of True from this method doesn't guarantee that your tree
+        is the 'correct' result, just that it satisfies bst ordering.
+
+        DO NOT CHANGE THIS METHOD IN ANY WAY
+        """
         stack = Stack()
         stack.push(self._root)
         while not stack.is_empty():
@@ -80,49 +116,17 @@ class BST:
             return node
 
     def remove(self, value: object) -> bool:
-        data = value
+        data=value
         self.root = self._remove(self.root, data)
 
-    def _remove(self, node, data):
-        if node is None:
-            return node
-        if data == node.data:
-            if node.left is None:
-                return node.right
-            elif node.right is None:
-                return node.left
-            else:
-                min_right = self._find_min(node.right)
-                node.data = min_right.data
-                node.right = self._remove(node.right, min_right.data)
-        elif data < node.data:
-            node.left = self._remove(node.left, data)
-        else:
-            node.right = self._remove(node.right, data)
-        return node
+    # Consider implementing methods that handle different removal scenarios; #
+    # you may find that you're able to use some of them in the AVL.          #
+    # Remove these comments.                                                 #
+    # Remove these method stubs if you decide not to use them.               #
+    # Change these methods in any way you'd like.                            #
 
     def _remove_no_subtrees(self, remove_parent: BSTNode, remove_node: BSTNode) -> None:
         self.root = self._remove_no_node(remove_parentt, remove_node)
-
-    def _remove_no_node(self, root, key):
-        if not root:
-            return root
-        elif key < root.key:
-            root.left = self._remove_node(root.left, key)
-        elif key > root.key:
-            root.right = self._remove_node(root.right, key)
-        else:
-            if not root.left and not root.right:
-                root = None
-            elif not root.left:
-                root = root.right
-            elif not root.right:
-                root = root.left
-            else:
-                temp = self.find_min(root.right)
-                root.key = temp.key
-                root.right = self._remove_node(root.right, temp.key)
-        return root
 
     def _remove_one_subtree(self, remove_parent: BSTNode, remove_node: BSTNode) -> None:
         if remove_parent is None:
@@ -177,63 +181,34 @@ class BST:
 
         return remove_parent
 
+    def _remove_two_subtrees(self, remove_parent: BSTNode, remove_node: BSTNode) -> None:
+        """
+        TODO: Write your implementation
+        """
+        # remove node that has two subtrees
+        # need to find inorder successor and its parent (make a method!)
+        pass
 
-def contains(self, value: object) -> bool:
-    data = value
-    return self._contains(self.root, data)
+    def contains(self, value: object) -> bool:
+        data = value
+        return self._contains(self.root, data)
 
+    def inorder_traversal(self) -> Queue:
+        self._inorder_traversal(self.root)
+        print()
 
-def _contains(self, node, data):
-    if node is None:
-        return False
-    elif data == node.data:
-        return True
-    elif data < node.data:
-        return self._contains(node.left, data)
-    else:
-        return self._contains(node.right, data)
+    def find_min(self) -> object:
+        return self._find_min(self.root)
 
+    def find_max(self) -> object:
+        return self._find_max(self.root)
 
-def inorder_traversal(self) -> Queue:
-    self._inorder_traversal(self.root)
-    print()
+    def is_empty(self) -> bool:
+        return self.root is None
 
+    def make_empty(self) -> None:
+        self.root = None
 
-def _inorder_traversal(self, node):
-    if node is not None:
-        self._inorder_traversal(node.left)
-        print(node.data, end=" ")
-        self._inorder_traversal(node.right)
-
-
-def find_min(self) -> object:
-    return self._find_min(self.root)
-
-
-def _find_min(self, node):
-    if node.left is None:
-        return node
-    else:
-        return self._find_min(node.left)
-
-
-def find_max(self) -> object:
-    return self._find_max(self.root)
-
-
-def _find_max(self, node):
-    if node.right is None:
-        return node
-    else:
-        return self._find_max(node.right)
-
-
-def is_empty(self) -> bool:
-    return self.root is None
-
-
-def make_empty(self) -> None:
-    self.root = None
 
 # ------------------- BASIC TESTING -----------------------------------------
 
